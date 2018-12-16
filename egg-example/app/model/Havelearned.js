@@ -1,6 +1,7 @@
 /**
  * @param {学生学习过的课程}
  */
+var stduent = require('./student')
 module.exports = app => {
     // 总课程模型
     const {
@@ -95,6 +96,6 @@ module.exports = app => {
             timestamps: false,  //去除createAt updateAt
             freezeTableName: true, //使用自定义表名
         })
-
+        
     return havelearned
 }

@@ -30,8 +30,8 @@ module.exports = app => {
 
 
     // react 后台
-    newsRouter.post('/admin/login', 'admin.admin.ajaxLogin')    // 登录后台
-    newsRouter.get('/admin/getUser', 'admin.admin.getUser')  // 获取用户
+    newsRouter.post('/login', 'admin.admin.ajaxLogin')    // 登录后台
+    newsRouter.get('/getUser', 'admin.admin.getUser')  // 获取用户
 
 
 

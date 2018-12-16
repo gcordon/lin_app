@@ -266,6 +266,32 @@ module.exports = {
                 data: ''
             })
         }
+    },
+    /**
+     * 
+     * @param {*需要验证的请求数据} paramRule 
+     * @param {*类型} q 
+     */
+    // 验证  GET 或 POST 传递的参数
+    * valParamRule(paramRule, q='post') {
+        const paramError = this.app.validator.validate(paramRule, q == 'post' ? this.ctx.request.body : this.ctx.query);
+        console.log('====================================');
+        console.log('====================================');
+        console.log('====================================');
+        console.log(paramError);
+        console.log(paramError);
+        console.log('====================================');
+        console.log('====================================');
+        console.log('====================================');
+        console.log('====================================');
+        if (paramError) {
+            return this.ctx.body = Object.assign({
+                    code: 1,
+                    // msg: 'failed', // 失败
+                }, { 
+                    data: {}, msg: paramError 
+                })
+        }
+        yield next()
     }
-
 }

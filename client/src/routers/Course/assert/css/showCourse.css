@@ -1,0 +1,14 @@
+.ant-layout-content  {
+    color: #fafafa;
+}
+.showCourse {
+    text-align: left;
+    margin-left: 20px;
+}
+.ant-tree-node-content-wrapper  {
+    width: 100%;
+    color: #fff;
+    height: 60px;
+    line-height: 60px;
+}
+

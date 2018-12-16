@@ -14,21 +14,30 @@ import menu from '@/configs/menu';
 import '../assert/Left.css'
 import ContentLoader from '@/components/MyContentLoader/index.js'
 
-
+import { withRouter, } from 'react-router-dom'
 import axios from 'axios'
 const {
     Sider,
 } = Layout;
 const SubMenu = Menu.SubMenu;
 
+@withRouter
 class header extends Component {
     componentDidMount() {
     }
     constructor(props) {
         super(props)
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this); // 代码性能优化
+        window.props = props
     }
     render() {
+        const current_pathname = this.props.location.pathname  
+
+        const re  = current_pathname.match(/[A-Z]+/)
+        const defaultOpenKeys_ = re ? '/' + re.input.substr(re.index).toLocaleLowerCase() : current_pathname
+        
+        const defaultSelectedKeys = current_pathname ? current_pathname : '/home'
+
         return (
             <Layout>
                 <Sider style={{
@@ -36,7 +45,7 @@ class header extends Component {
                 }}
                 >
                     <div className="logo" />
-                    <Menu theme="dark" mode="inline" inlineIndent={30} defaultSelectedKeys={['/home']}>
+                    <Menu theme="dark" mode="inline" inlineIndent={30} defaultOpenKeys={[defaultOpenKeys_]} defaultSelectedKeys={[defaultSelectedKeys]}>
                         {
                             menu.map((value,key) => {
                                 return (
@@ -47,10 +56,10 @@ class header extends Component {
                                             value.list.map(v => {
                                                 return (
                                                     <Menu.Item key={v.key}>
-                                                        <Link to={value.key} style={{ 'color': '#fafafa','display':'block' }}>
+                                                        <Link to={v.key} style={{ 'color': '#fafafa','display':'block' }}>
                                                                 {/* <Icon type={value.icon} /> */}
                                                                 <span className="nav-text">
-                                                                    {value.title}
+                                                                    {v.title}
                                                                 </span>
                                                         </Link>
                                                     </Menu.Item>  

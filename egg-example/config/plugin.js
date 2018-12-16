@@ -56,6 +56,7 @@ exports.qiniu = {
  * POST参规则验证
  */
 exports.validate = {
+    enable: true,
     package: 'egg-validate',
 }
 

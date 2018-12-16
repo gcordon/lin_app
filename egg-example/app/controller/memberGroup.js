@@ -23,7 +23,7 @@ class memberGroupController extends Controller {
     // 获取指定成员方案管理id
     async getmeMberGroupOne() {
         const { ctx, service } = this
-
+// @copy;
         const member_group_type_id = ctx.request.body.member_group_type_id || ctx.query.member_group_type_id
         ctx.body = await service.memberGroup.getmeMberGroupOne(Number(member_group_type_id))
     }
@@ -35,6 +35,18 @@ class memberGroupController extends Controller {
         const member_group_type_id = ctx.request.body.member_group_type_id || ctx.query.member_group_type_id
         ctx.body = await service.memberGroup.delmeMberGroupOne(Number(member_group_type_id))
 
+    }
+    // 删除指定成员方案管理id
+    /**
+     * 分别为： PUT 、 DEL 
+     *         PUT 添加 到指定的小组中
+     *         DEL 删除 指定的小组
+     */
+    async editbergroupOne() {
+        const { ctx, service } = this
+
+        const editJSON = ctx.request.body.editJSON || ctx.query.editJSON  
+        ctx.body = await service.memberGroup.editbergroupOne(JSON.parse(editJSON))
     }
 }
 module.exports = memberGroupController

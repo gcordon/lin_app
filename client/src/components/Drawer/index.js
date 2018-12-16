@@ -26,7 +26,7 @@ class DrawerForm extends React.Component {
             <div>
                 <Button type="primary" onClick={this.showDrawer}>
                     Create
-        </Button>
+                </Button>
                 <Drawer
                     title="Create"
                     width={720}

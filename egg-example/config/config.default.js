@@ -92,7 +92,7 @@ module.exports = appInfo => {
             '.mp4',
             '.avi',
             // '.webp',
-        ],
+        ]
     }
     // socket
     config.io = {

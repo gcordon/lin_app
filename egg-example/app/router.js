@@ -5,7 +5,6 @@ module.exports = app => {
 require('./router/admin')(app)
 /****后台pug模板***/
     router.get('/', 'test.home')
-    router.post('/api/fangkui', 'test.fangkui')
     router.redirect('/index', '/');
     router.get('/fire', 'test.fire')
 
@@ -133,6 +132,7 @@ require('./router/admin')(app)
 /***********************{start测试}******************************** */
     // 七牛云文件上传测试
     router.get('/test', 'test.test')
+    router.post('/api/antd', 'test.antd')
 
     router.get('/pug', 'test.pug')
     router.post('/pug', 'test.upload')
@@ -219,5 +219,7 @@ require('./router/admin')(app)
         //  获取notice公告
         router.get('/api/getNotice', 'notice.getNotice')
     
+        // app 建议
+    router.post('/api/suggest', 'suggest.suggest')
 
 }

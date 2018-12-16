@@ -6,6 +6,14 @@ const fs = require('fs')
 const sendToWormhole = require('stream-wormhole');
 
 class TestController extends Controller {
+    antd() {
+        console.log('====================================');
+        console.log(this.ctx.request.body);
+        console.log(this.ctx.query)
+        console.log(this.ctx.getFileStream())
+        console.log('====================================');
+        this.ctx.body = '666'    
+    }
     fire() {
         this.ctx.body = {
             code:1,

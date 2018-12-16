@@ -47,12 +47,14 @@ class TaskController extends Controller {
         const {
             ctx, service
         } = this
+        const course_child_id = ctx.request.body.course_child_id || ctx.query.course_child_id 
         const student_id = ctx.request.body.student_id || ctx.query.student_id 
         const fraction = ctx.request.body.fraction || ctx.query.fraction 
         const types = ctx.request.body.type || ctx.query.type 
-        const getOneTask = await service.task.setScore(student_id, fraction, types)
+        const getOneTask = await service.task.setScore(course_child_id, student_id, fraction, types)
 
         ctx.body = getOneTask
+        
     }
 }
 

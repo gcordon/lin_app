@@ -176,8 +176,8 @@
       "POST"
     ],
     "paramNames": [],
-    "path": "/admin/admin/login",
-    "regexp": "/^\\/admin\\/admin\\/login(?:\\/(?=$))?$/",
+    "path": "/admin/login",
+    "regexp": "/^\\/admin\\/login(?:\\/(?=$))?$/",
     "stack": [
       "wrappedController"
     ]
@@ -189,8 +189,8 @@
       "GET"
     ],
     "paramNames": [],
-    "path": "/admin/admin/getUser",
-    "regexp": "/^\\/admin\\/admin\\/getUser(?:\\/(?=$))?$/",
+    "path": "/admin/getUser",
+    "regexp": "/^\\/admin\\/getUser(?:\\/(?=$))?$/",
     "stack": [
       "wrappedController"
     ]
@@ -292,6 +292,18 @@
     "paramNames": [],
     "path": "/api/delmembergroupOne",
     "regexp": "/^\\/api\\/delmembergroupOne(?:\\/(?=$))?$/",
+    "stack": [
+      "wrappedController"
+    ]
+  },
+  {
+    "name": null,
+    "methods": [
+      "POST"
+    ],
+    "paramNames": [],
+    "path": "/api/editbergroupOne",
+    "regexp": "/^\\/api\\/editbergroupOne(?:\\/(?=$))?$/",
     "stack": [
       "wrappedController"
     ]
@@ -853,8 +865,8 @@
       "POST"
     ],
     "paramNames": [],
-    "path": "/admin/admin/login",
-    "regexp": "/^\\/admin\\/admin\\/login(?:\\/(?=$))?$/",
+    "path": "/admin/login",
+    "regexp": "/^\\/admin\\/login(?:\\/(?=$))?$/",
     "stack": [
       "wrappedController"
     ]
@@ -866,8 +878,8 @@
       "GET"
     ],
     "paramNames": [],
-    "path": "/admin/admin/getUser",
-    "regexp": "/^\\/admin\\/admin\\/getUser(?:\\/(?=$))?$/",
+    "path": "/admin/getUser",
+    "regexp": "/^\\/admin\\/getUser(?:\\/(?=$))?$/",
     "stack": [
       "wrappedController"
     ]
@@ -881,18 +893,6 @@
     "paramNames": [],
     "path": "/",
     "regexp": "/^(?:\\/(?=$))?$/",
-    "stack": [
-      "wrappedController"
-    ]
-  },
-  {
-    "name": null,
-    "methods": [
-      "POST"
-    ],
-    "paramNames": [],
-    "path": "/api/fangkui",
-    "regexp": "/^\\/api\\/fangkui(?:\\/(?=$))?$/",
     "stack": [
       "wrappedController"
     ]
@@ -1432,6 +1432,18 @@
   {
     "name": null,
     "methods": [
+      "POST"
+    ],
+    "paramNames": [],
+    "path": "/api/antd",
+    "regexp": "/^\\/api\\/antd(?:\\/(?=$))?$/",
+    "stack": [
+      "wrappedController"
+    ]
+  },
+  {
+    "name": null,
+    "methods": [
       "HEAD",
       "GET"
     ],
@@ -1940,6 +1952,18 @@
   {
     "name": null,
     "methods": [
+      "POST"
+    ],
+    "paramNames": [],
+    "path": "/api/editbergroupOne",
+    "regexp": "/^\\/api\\/editbergroupOne(?:\\/(?=$))?$/",
+    "stack": [
+      "wrappedController"
+    ]
+  },
+  {
+    "name": null,
+    "methods": [
       "HEAD",
       "GET"
     ],
@@ -2107,6 +2131,18 @@
     "paramNames": [],
     "path": "/api/getNotice",
     "regexp": "/^\\/api\\/getNotice(?:\\/(?=$))?$/",
+    "stack": [
+      "wrappedController"
+    ]
+  },
+  {
+    "name": null,
+    "methods": [
+      "POST"
+    ],
+    "paramNames": [],
+    "path": "/api/suggest",
+    "regexp": "/^\\/api\\/suggest(?:\\/(?=$))?$/",
     "stack": [
       "wrappedController"
     ]

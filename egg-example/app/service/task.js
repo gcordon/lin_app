@@ -179,18 +179,25 @@ class TaskService extends Service {
      * @argument {fraction} 分数
      * @argument {type} 类型 =》 头脑风暴或讨论等。。。。
      */
-    async setScore(student_id, fraction, types ) {
+    async setScore(course_child_id,student_id, fraction, types ) {
         const {
             ctx,
         } = this
-      
-        const query = { student_id: Number(student_id)}
+        const find_s = await ctx.model.Student.findOne({
+            token: student_id,
+        })
+        student_id = find_s.id
+        if (!find_s) {
+            return Object.assign(ERROR, {
+                msg: '用户不存在'
+            })
+        }
+        const query = { student_id: student_id,course_child_id: Number(course_child_id) }
         const findStudentId = await ctx.model.Havelearned.findOne({
             where: query
         })
 
         // brainstorming
-        console.log(findStudentId)
         const oldType = findStudentId.dataValues[types]
         
         let up = {}
@@ -202,13 +209,14 @@ class TaskService extends Service {
 
         const score = await ctx.model.Havelearned.update(update, {
             where: {
-                student_id: Number(student_id)
+                student_id: student_id,
+                course_child_id: Number(course_child_id)
             }
         })
         
         return Object.assign(SUCCESS, {
             msg: '',
-            data: score
+            data: oldType
         })
     }
 }

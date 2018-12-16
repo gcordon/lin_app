@@ -14,7 +14,6 @@ const {
     Header, Content, Footer,
 } = Layout;
 
-
 @withRouter
 class Slide extends Component {
     componentWillMount() {
@@ -54,7 +53,7 @@ class Slide extends Component {
                             component={route.sidebar}
                         />
                     ))} */}
-                    <div style={{ padding: 24, color: 'red', background: '#fff', textAlign: 'center' }}>
+                    <div style={{ padding: 24, color: '#000' ,background: '#fff', textAlign: 'center' }}>
                         {/* {routes.map((route, index) => (
                             // You can render a <Route> in as many places
                             // as you want in your app. It will render along

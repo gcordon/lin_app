@@ -1,11 +1,27 @@
 import React,{ Component } from 'react'
+import Zmage from 'react-zmage'
+
+import { ali_scriptUrl } from '@/configs/DEPLOY'
+
+import { connect, } from 'react-redux'
+import {get_user_list} from '@/redux/user/action'
+
+
 import {
-    Table, Input, Button, Popconfirm, Form,
+    Table, Input, Button, Popconfirm, Form, Avatar, Icon
 } from 'antd';
+
+
+
 import Drawer from '@/components/Drawer'
 import './index.css'
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
+
+const IconFont = Icon.createFromIconfontCN({
+    scriptUrl: ali_scriptUrl,
+});
+
 
 const EditableRow = ({ form, index, ...props }) => (
     <EditableContext.Provider value={form}>
@@ -14,6 +30,7 @@ const EditableRow = ({ form, index, ...props }) => (
 );
 
 const EditableFormRow = Form.create()(EditableRow);
+
 
 class EditableCell extends React.Component {
     state = {
@@ -111,24 +128,97 @@ class EditableCell extends React.Component {
     }
 }
 
+@connect(
+    state => state.user,
+    { get_user_list },
+)
+
 class EditableTable extends React.Component {
+    componentDidMount() {
+        this.props.get_user_list()
+        this.setState({
+            loading: false,
+        })
+        console.log('====================================');
+        console.log(this.props);
+        console.log('====================================');
+    }
+    // 有props更新
+    componentWillReceiveProps(newProps) {
+        console.log('获取到props新数据Component WILL RECEIVE PROPS!')
+        this.state.dataSource = newProps.user_list
+    }
     constructor(props) {
         super(props);
-        this.columns = [{
-            title: 'name',
-            dataIndex: 'name',
-            width: '30%',
-            editable: true,
-        }, {
-            title: 'age',
-            dataIndex: 'age',
-            editable: true,
-
-        }, {
-            title: 'address',
-            dataIndex: 'address',
-            editable: true,
-        }, {
+        
+        this.columns = [
+            // {
+            //     title: 'id',
+            //     dataIndex: 'id',
+            //     width: '30%',
+            //     editable: true,
+            // }, {
+            //     title: 'name',
+            //     dataIndex: 'name',
+            //     editable: true,
+            // }, {
+            //     title: 'operation',
+            //     dataIndex: 'operation',
+            //     render: (text, record) => (
+            //         this.state.dataSource.length >= 1
+            //             ? (
+            //                 <div>
+            //                     <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+            //                         <a href="javascript:;">Delete</a>
+            //                     </Popconfirm>
+            //                     &emsp;
+            //                 </div>
+            //             ) : null
+            //     ),
+            // }
+        ];
+        let student_key = ['id', 'name', 'username', 'name', 'password', 'defaultpassword', 'sex', 'old_avatar', 'token', 'email']
+        for (let i = 0; i < 10; i++) {
+            if (student_key[i] == 'old_avatar') {
+                this.columns.push({
+                    title: 'old_avatar',
+                    dataIndex: 'old_avatar',
+                    render: (text, record) => (
+                        this.state.dataSource.length >= 1
+                            ? (
+                                <div>
+                                    {/* <Avatar size={38} src={text} /> */}
+                                    <Zmage src={text} src={text} width={38} height={38} style={{ borderRadius: '50%'}}/>
+                                </div>
+                            ) : null
+                    ),
+                })
+            } else if (student_key[i] == 'sex') {
+                this.columns.push({
+                    title: 'sex',
+                    dataIndex: 'sex',
+                    render: (text, record) => (
+                        this.state.dataSource.length >= 1
+                            ? (
+                                <div>
+                                    {/* <Avatar size={38} src={text} /> */}
+                                    {text == 1 ? <IconFont type="icon-xingbienan" /> : <IconFont type="icon-xingbienv" />}
+                                </div>
+                            ) : null
+                    ),
+                })
+            } else {
+                this.columns.push({
+                    title: student_key[i],
+                    // <IconFont type="icon-xingbienan" />
+                    dataIndex: student_key[i],
+                    editable: (student_key[i] == 'id' || student_key[i] == 'token') ? false : true,
+                    width: '10%',
+                    key: i,
+                })
+            }
+        }
+        this.columns.push({
             title: 'operation',
             dataIndex: 'operation',
             render: (text, record) => (
@@ -142,24 +232,16 @@ class EditableTable extends React.Component {
                         </div>
                     ) : null
             ),
-        }];
-
+        })
+        // //at.alicdn.com/t/font_964758_0yj9cpz7t85h.js
+        
+        // this.props.get_user_list()
         this.state = {
-            dataSource: [{
-                key: '0',
-                name: 'Edward King 0',
-                age: '32',
-                address: 'London, Park Lane no. 0',
-            }, {
-                key: '1',
-                name: 'Edward King 1',
-                age: '32',
-                address: 'London, Park Lane no. 1',
-            }],
+            dataSource: [],
             count: 2,
+            loading: true,
         };
     }
-
     handleDelete = (key) => {
         const dataSource = [...this.state.dataSource];
         this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
@@ -225,10 +307,14 @@ class EditableTable extends React.Component {
                 <Table
                     components={components}
                     rowClassName={() => 'editable-row'}
-                    bordered
+                    // bordered={false}
                     dataSource={dataSource}
                     columns={columns}
+                    loading={this.state.loading } // 是否加载中
+                    Pagination={{ defaultCurrent: 1, defaultPageSize: 2}} 
+                    position={'top'}
                 />
+
             </div>
         );
     }

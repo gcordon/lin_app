@@ -2,6 +2,8 @@ const Service = require('egg').Service
 const {
     SUCCESS,
     ERROR,
+    valParamRule,  
+
 } = require('../util/util')
 
 class MessageService extends Service {
@@ -43,8 +45,10 @@ class MessageService extends Service {
     async getMessageCenter(limit = 'all', course_child_id) {
 
         const {
-            ctx
+            ctx, app,
         } = this
+
+
         let getMessage = null
         // 查询老师
         if (limit == 'all') {

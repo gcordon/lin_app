@@ -280,6 +280,7 @@
         "egg-validator": "0.0.4",
         "egg-view-nunjucks": "^2.2.0",
         "egg-view-pug": "^1.0.0",
+        "formstream": "^1.1.0",
         "fs": "0.0.1-security",
         "gm": "^1.23.1",
         "graphicsmagick": "0.0.1",
@@ -615,8 +616,8 @@
       "version": "1.1.4"
     },
     "validate": {
-      "package": "egg-validate",
       "enable": true,
+      "package": "egg-validate",
       "name": "validate",
       "dependencies": [],
       "optionalDependencies": [],

@@ -83,6 +83,7 @@ class moyunController extends Controller {
 
         // 子课程id
         const course_child_id = ctx.request.body.course_child_id || ctx.query.course_child_id
+        const id = ctx.request.body.id || ctx.query.id
         const editObj = {
             school,
             title,
@@ -96,7 +97,7 @@ class moyunController extends Controller {
             ctx.body = editCourse
         } catch (error) {
             // 没有上传图片的
-            const NoFileAvatareditCourse = await service.moyun.NoFileAvatareditCourse(editObj, course_child_id)
+            const NoFileAvatareditCourse = await service.moyun.NoFileAvatareditCourse(editObj, course_child_id || id)
             ctx.body = NoFileAvatareditCourse
         }
     }

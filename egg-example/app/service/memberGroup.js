@@ -188,7 +188,7 @@ class memberGroupService extends Service {
                 const member_child = await ctx.model.MemberGroupChild.findAndCountAll({
                     where: {
                         member_group_type_id: Number(member_group_type_id),
-                        member_group_class_id: Number(member_group_class_id),
+                        // member_group_class_id: Number(member_group_class_id),  // 错误
                     }
                 })
                 item.dataValues.student_numer = `${member_child.count}` 
@@ -228,8 +228,8 @@ class memberGroupService extends Service {
             item.dataValues.childArr = memberChild
             memberChild.rows.map(async (re) => {
                 const student = await ctx.model.Student.findAll({ 
-                    attributes: ['name','avatar'],
-                    where: { id: Number(re.dataValues.student_id) } 
+                    attributes: ['name','avatar','id'],
+                    where: { id: Number(re.dataValues.student_id)} 
                 })
                 re.dataValues = student
             })
@@ -271,6 +271,61 @@ class memberGroupService extends Service {
             })
         }
     }
+    
+
+    // 删除指定成员方案管理id
+    async editbergroupOne(editJSON) {
+        const {
+            ctx
+        } = this
+        /**
+        * editJOSN例子：
+            {
+                "PUT": [
+                    // {student_id: 129,
+                    // member_group_type_id: 60,
+                    // member_group_class_id: 80,
+                    // course_child_id: 35,},
+                    // {student_id: 131,
+                    // member_group_type_id: 60,
+                    // member_group_class_id: 80,
+                    // course_child_id: 35,},
+                ],
+                "DEL": [
+                    {student_id: 111,
+                    member_group_type_id: 60,
+                    member_group_class_id: 80,
+                    course_child_id: 35,},
+                    {student_id: 112,
+                    member_group_type_id: 60,
+                    member_group_class_id: 80,
+                    course_child_id: 35,},
+                ],
+            }
+        */
+        try {
+            // 成员小组添加 和 删除
+            if (editJSON['PUT'].length) {
+                const create = await ctx.model.MemberGroupChild.bulkCreate(editJSON['PUT'])
+            }
+            if (editJSON['DEL'].length) {
+                editJSON['DEL'].forEach(async (element) => {
+                    const destroy = await ctx.model.MemberGroupChild.destroy({ where: element })
+                });
+            }
+            return Object.assign(SUCCESS, {
+                msg: '成员小组编辑成功!',
+                data: ''
+            })
+        } catch (error) {
+            // throw error(error)
+        }
+        return Object.assign(ERROR, {
+            msg: '成员小组编辑失败!',
+            data: ''
+        })
+    }
+
 }
 
 module.exports = memberGroupService

@@ -23,6 +23,7 @@ module.exports = app => {
         // 删除指定成员方案管理id
         newsRouter.post("/delmembergroupOne",'memberGroup.delmeMberGroupOne')
         // 编辑指定成员方案管理id
+    newsRouter.post("/editbergroupOne", 'memberGroup.editbergroupOne')
         
 
     // 获取资源

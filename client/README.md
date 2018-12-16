@@ -4,10 +4,9 @@
 ### 基于 react + antd + Mobx
 
 ##
-一、 npm i
+一、进入client目录
 二、yarn start
 ** 默认端口 3000
-egg-example
 
 
 

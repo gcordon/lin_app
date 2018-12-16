@@ -68,7 +68,7 @@ class AdminController extends Controller {
                 encryption_password,
             })
             // 设置session key值为egg_server value值为加密后的后台登录密码
-            // SetSession.call(this, 'egg_server', encryption_password)
+            SetSession.call(this, 'egg_server', encryption_password)
             // this.ctx.body = Object.assign(SUCCESS, {
             //     msg: `后台登录成功！`
             // })
@@ -114,8 +114,8 @@ class AdminController extends Controller {
         // window.location.href = 'http://www.baidu.com'
         // if (this.ctx.session.egg_server) {
         // }
-        const page = ctx.request.body.page || ctx.query.page 
-        const limit = ctx.request.body.limit || ctx.query.limit 
+        const page = ctx.request.body.page || ctx.query.page  
+        const limit = ctx.request.body.limit || ctx.query.limit  
 
         const findUser = await ctx.model.Student.findAndCountAll({
             // where: {
@@ -134,6 +134,9 @@ class AdminController extends Controller {
             layer-src="../${oldavatar}" src="../${oldavatar}" alt="../${oldavatar}"
             sql-src="${oldavatar}"
             src="../${oldavatar}">`
+
+            // 
+            item.dataValues.old_avatar = oldavatar
         })
         const count = findUser.count
         ctx.body = Object.assign(SUCCESS,{

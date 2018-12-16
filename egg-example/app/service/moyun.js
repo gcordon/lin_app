@@ -2,7 +2,9 @@ const Service = require('egg').Service
 const {
     SUCCESS,
     ERROR,
+    valParamRule,  
 } = require('../util/util')
+
 const path = require('path')
 const fs = require('fs')
 const moment = require('moment')
@@ -10,6 +12,7 @@ const moment = require('moment')
 class moyunService extends Service {
     // 获取班课信息
     async getMaterial(course_child_id){
+        
         try {
             const getMaterial = await this.ctx.model.Course.findOne({
                 // id 标题 导航图片 老师 学习要求 考试安排
@@ -60,16 +63,18 @@ class moyunService extends Service {
                 })
             }
         } catch (error) {
-            throw (error)
             this.ctx.status = 500
+            throw (error)
         }
     }
 
     // 获取班课消息
     async getMessage(course_child_id) {
         const {
-            ctx, 
+            ctx, app,
         } = this
+
+        
         const getMessage = await ctx.model.Message.findAll({ where: { course_child_id: Number(course_child_id) } })
         return Object.assign(SUCCESS, {
             data: getMessage,
@@ -78,18 +83,32 @@ class moyunService extends Service {
     // 获取班课成员
     async getMember(course_child_id) {
         const {
-            ctx, 
+            ctx, app,
         } = this
+        
+        /**
+        const paramRule = {
+            course_child_id: { type: 'number', required: true },  // 子课程id
+        }
+        const paramError = app.validator.validate(paramRule, ctx.query);
+        if (paramError) return ctx.body = Object.assign(ERROR, { data: {},msg: paramError })
+        **/
         const havelearned = await ctx.model.Havelearned.findAll({ 
-            attributes: ['student_id'],
+            // attributes: ['student_id'],
             where: { course_child_id: Number(course_child_id)  } 
         })
 
+        // 记录对应的id的总分数
+        let count_id_obj = {}
+        // 
         let studetArr = []
         havelearned.forEach((item, index) => {
             studetArr.push(item.dataValues.student_id)
+            // task_id_experience   vote_id_experience   brainstorming_id_experience  discuss_id_experience   testing_id_experience
+            const count = item.task_id_experience + item.vote_id_experience + item.brainstorming_id_experience + item.discuss_id_experience + item.testing_id_experience
+            count_id_obj[item.student_id] = count
         })
-
+        // 老师不出现在成员中
         const course = await ctx.model.Course.findOne({where:{id:Number(course_child_id)}})
         
         const notIn = JSON.parse(course.dataValues.teacher_id)
@@ -103,9 +122,21 @@ class moyunService extends Service {
                 }
             },
         })
+
+
+        for(let i=0; i<Object.keys(count_id_obj).length; i++) {
+            
+            member.map((value, key, old_value) => {
+                // 写入每个人的总分
+                if(value.id.toString() == Object.keys(count_id_obj)[i]) {
+                    value.dataValues.count = Object.values(count_id_obj)[i]
+                }
+            })
+        }
+
         return Object.assign(SUCCESS, {
             msg: '',
-            member_data: member
+            member_data: member,
         })
     }
     // 获取资源
@@ -246,6 +277,7 @@ class moyunService extends Service {
             let sqlAvatarPath = 'public/img/avatar' + imagename
             editObj.banner = sqlAvatarPath
             /*****************end 文件上传相关****************** */
+            // 可以单独只上传图片
             const updateCourse = await ctx.model.Course.update(editObj, {
                     where: {
                         id: Number(course_child_id)
@@ -254,7 +286,10 @@ class moyunService extends Service {
             if (updateCourse) {
                 return Object.assign(SUCCESS, {
                     msg: `编辑班课id: ${Number(course_child_id)}成功！`,
-                    data: updateCourse,
+                    data: {
+                        course_image: sqlAvatarPath,
+                        updateCourse,
+                    },
                 })
             } 
         } catch (error) {
@@ -276,14 +311,14 @@ class moyunService extends Service {
                 }
             })
             if (update) {
-                return Object.assign(ERROR, {
+                return Object.assign(SUCCESS, {
                     msg: `编辑班课id: ${Number(course_child_id)}成功！`,
-                    data: update,
+                    data: editObj,
                 })
             }
         } catch (error) {
-            throw (error)
             ctx.status = 500
+            throw (error)
         }
     }
 /*******************************************************其他课件********************************************* */

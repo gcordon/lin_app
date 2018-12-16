@@ -1,0 +1,9 @@
+.catCourse {
+    width: 100%;
+}
+.catCourse-img {
+    width: 100%;
+    max-height: 300px;
+    min-height: 300px;
+    border-radius: 2%;
+}

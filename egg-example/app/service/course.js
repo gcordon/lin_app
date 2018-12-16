@@ -274,7 +274,9 @@ class CourseService extends Service {
             courseOneData.teacherArr = findTeacher
 
             if (token == null) {
-                return courseOne
+                return Object.assign(SUCCESS, {
+                    data: courseOne
+                })
             }
             /**
              * @param{token} 到Havelearned查询是否学习过此课程了
@@ -441,12 +443,7 @@ class CourseService extends Service {
                     token: token,
                 }
             })
-            // 如果此人是老师的话，自己的课程也应该在我的课程当中
-            const st = await ctx.model.Course.findAll({
-                where: {
-                    
-                }
-            })
+
             const havelearned = await ctx.model.Havelearned.findAll({
                 where: {
                     student_id: student.dataValues.id
@@ -454,7 +451,18 @@ class CourseService extends Service {
             })
 
             
+            // 这里是保存课程的每个id
             let havelearnedArr = []
+
+            // start 如果此人是老师的话，自己的课程也应该在我的课程当中
+            const st = await ctx.model.Course.findAll({})
+            for (let i of st) {
+                if (JSON.parse(i.teacher_id).includes(student.id)) {
+                    havelearnedArr.push(i.id)
+                }
+            }
+            // end 如果此人是老师的话，自己的课程也应该在我的课程当中
+
             havelearned.forEach(element => {
                 havelearnedArr.push(element.dataValues.course_child_id)
             });

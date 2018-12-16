@@ -14,11 +14,19 @@ export default
 }, {
     key: '/course',
     title: '课程',
-    icon: 'gongneng',
+    icon: 'mokuai',
     list: [{
-        key: '/functionList',
-        title: '功能列表'
-    }]
+        key: '/showCourse',
+        title: '显示课程'
+    }, {
+        key: '/addCourse',
+        title: '添加课程'
+    }
+    // , {
+    //     key: '/catCourse',
+    //     title: '编辑课程'
+    // }
+    ]
 }, {
     key: '/roleManage',
     title: '角色管理',
