@@ -1,0 +1,225 @@
+//- 这个是   用户-》用户表
+extends ./layout/admin.pug
+block content
+
+    div(class="clearfix layui-body layui-table-body layui-anim layui-anim-fadein")
+        fieldset.layui-elem-field.site-demo-button
+            legend 操作
+        .layui-btn-group.demoTable
+            button.layui-btn(data-type="addUser") 增加用户
+            |        
+            button.layui-btn(data-type="delUser") 删除
+            |         
+            button.layui-btn(data-type="getCheckData") 获取选中行数据
+            |             
+            button.layui-btn(data-type="getCheckLength") 获取选中数目
+            |             
+            button.layui-btn(data-type="isAll") 验证是否全选
+
+        table(class="layui-hide" id="layui_table" lay-filter="demo" ng-show="username" )
+block currentScript
+    script(type="text/html",id="barDemo").
+    
+        <!-- <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a> -->
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        
+        <!-- 这里同样支持 laytpl 语法，如： -->
+        {{#  if(d.auth > 2){ }}
+            <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
+        {{#  } }}
+    script.
+            //默认prompt
+
+
+        
+        layui.use('table', function(){
+            var table = layui.table;
+
+            //- layer.open({
+            //-     type: 2,
+            //-     content: '../public/iframe.html',
+            //-     success: function(layero, index){
+            //-         var body = layer.getChildFrame('body', index);
+            //-         var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+            //-         console.log(body.html()) //得到iframe页的body内容
+            //-         body.find('input').val('Hi，我是从父页来的')
+            //-     }
+            //- }); 
+
+            table.render({
+                    elem: '#layui_table'
+                    ,text: {
+                        none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+                    }
+                    ,limit: 10
+                    ,url:'/admin/getUser'
+                    ,page: { 
+                        //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                        //,curr: 5 //设定初始在第 5 页
+                        ,groups: 5 //只显示 1 个连续页码
+                        ,first: false //不显示首页
+                        ,last: false //不显示尾页
+                        ,loading:true
+                        ,
+                    }
+                    ,cols: [[
+                        {type:'numbers'}
+                        ,{type: 'checkbox'}
+                        ,{field:'id', width:80, title: 'ID', sort: true}
+                        ,{field:'username', width:100, title: '用户名'}
+                        ,{field:'name', width:100, title: '名字'}
+                        ,{field:'password', width:80, title: '密码', sort: true}
+                        ,{field:'defaultpassword', width:80, title: '原密码', sort: true}
+                        ,{field:'sex', width:80, title: '性别', sort: true}
+                        ,{field:'school', width:80, title: '学校', sort: true}
+                        ,{field:'avatar', width:110, title: '头像', sort: true}
+                        ,{field:'token', width:180, title: 'token', sort: true}
+                        ,{field:'email', width:80, title: '邮箱', sort: true}
+                        //- ,{field:'city', width:80, title: '城市'}
+                        //- //- ,{field:'sign', title: '签名', minWidth: 150}
+                        //- ,{field:'experience', width:80, title: '积分', sort: true}
+                        //- ,{field:'score', width:80, title: '评分', sort: true}
+                        //- ,{field:'classify', width:80, title: '职业'}
+                        //- ,{field:'wealth', width:135, title: '财富', sort: true}
+                        ,{fixed: 'right', width:150, title: '操作', align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+                    ]]
+                    ,done: function(res, curr, count)  {
+                        //- 如果是一步请求数据方式，res即为你接口返回的信息
+                        //- 如果是直接复制的方式，res即为： {data: [],count: 99} date为当前页数据，count 为数据总长度
+                        //- console.log(res)                        
+                            //得到当前页码
+                        //- console.log(curr); 
+                        //得到数据总量
+                        //- console.log(count);                       
+                    }
+            });
+            layer.photos({
+                photos: '.layui-table-cell .laytable-cell-1-avatar'
+                ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+            }); 
+            //监听工具条
+            table.on('tool(demo)', function(obj){
+                //- console.log(obj)
+                var data = obj.data;
+                if(obj.event === 'detail'){
+                    layer.msg('ID：'+ data.id + ' 的查看操作');
+                    console.log('数据查看', data)
+                } else if(obj.event === 'del'){
+                    layer.confirm('真的删除行么', function(index){
+                        let {id,username} = obj.data
+                        
+                        axios.post('/admin/delUser',{
+                            id: Number(id)
+                        })
+                        .then(function (response) {
+                            const data = response.data
+                            if (data.code == 0) {
+                                console.log(response)
+                                obj.del();
+                                layer.close(index);
+                                layer.alert(data.msg)
+                            } else  {
+                                layer.close(index);
+                                layer.alert(data.msg)
+                            }
+                        })
+                        .catch(function(error)  {
+                            layer.alert(error)
+                        })
+                    });
+                } else if(obj.event === 'edit'){
+                    let {username, name,school,password,email, sex, token, avatar,defaultpassword} = obj.data
+                    let StudentObj = {username, name,school,password,email,sex,token,}
+                    //- layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                    layer.open({
+                        content: 'test',
+                        type: 2,
+                        area: ['500px', '650px'],
+                        fixed: false, //不固定
+                        maxmin: true,
+                        scrollbar: false,
+                        content: '../public/view/getUser/iframe.html',
+                        success: function(layero, index){
+                            var body = layer.getChildFrame('body', index);
+                            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                            //- console.log(body.html()) //得到iframe页的body内容
+                            body.find("input[name='username']").val(username)
+                            body.find("input[name='name']").val(name)
+                            body.find("input[name='school']").val(school)
+                            //- body.find("input[name='password']").val(password)
+                            body.find("input[name='password']").val(defaultpassword)
+                            body.find("input[name='email']").val(email)
+                            if (sex == 1) {
+                                body.find("input[name='sex'][title='男']").val(sex)
+                            } else if (sex == 2) {
+                                body.find("input[name='sex'][title='女']").val(sex)
+                            }
+
+                            body.find("input[name='token']").val(token)
+                            console.log($(avatar))
+                            if (sex == 1 ) { // 男生
+                                    let a = body.find("input[name='sex'][title='男']")
+                                    $(a).attr('checked','checked')
+                                    $(a).next('div').addClass('layui-form-radioed')
+                                    $(a).next('div').find('i').addClass('layui-anim-scaleSpring')
+                            } else if (sex == 2) {
+                                let a = body.find("input[name='sex'][title='女']")
+                                $(a).attr('checked','checked')
+                                $(a).next('div').addClass('layui-form-radioed')
+                                $(a).next('div').find('i').addClass('layui-anim-scaleSpring')
+                            }
+                        }
+                    });
+                }
+            });
+            
+            var $ = layui.$, active = {
+                getCheckData: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('layui_table')
+                    ,data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                }
+                ,getCheckLength: function(){ //获取选中数目
+                    var checkStatus = table.checkStatus('layui_table')
+                    ,data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                }
+                ,isAll: function(){ //验证是否全选
+                    var checkStatus = table.checkStatus('layui_table');
+                    layer.msg(checkStatus.isAll ? '全选': '未全选')
+                }
+                ,addUser: function() {
+                    layer.msg('添加用户')
+                    layer.open({
+                        content: 'test',
+                        type: 2,
+                        area: ['500px', '650px'],
+                        fixed: false, //不固定
+                        maxmin: true,
+                        scrollbar: false,
+                        content: '../public/view/getUser/AddIframe.html',
+                        success: function(layero, index){
+                            var body = layer.getChildFrame('body', index);
+                            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                            //- console.log(body.html()) //得到iframe页的body内容
+                            //- body.find("input[name='username']").val(username)这里不需要让值赋值，这里是添加用户，所以vla()为空
+                            body.find("input[name='username']").val()
+                            body.find("input[name='name']").val()
+                            body.find("input[name='school']").val()
+                            body.find("input[name='password']").val()
+                            body.find("input[name='email']").val()
+                        }
+                    });
+                }
+                ,delUser: function() {
+                    layer.msg('删除用户')
+                }
+            };
+            
+            $('.demoTable .layui-btn').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });     
+        });    

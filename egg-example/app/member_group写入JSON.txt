@@ -1,0 +1,30 @@
+[
+    {
+        "title":"父成员小组方案管理1",
+        "course_child_id":35,
+        "date":"2018-06-02",
+        "membergroupClassArr":[
+            {
+                "title":"类成员小组方案管理1",
+                "date":"2018-06-19",
+                "membergroupChildArr":[
+                    {
+                        "student_id": 56,
+                    },
+                    {
+                       "student_id": 72,
+                    },
+                ]
+            },
+            {
+                "title":"类成员小组方案管理2",
+                "date":"2018-06-19",
+                "membergroupChildArr":[
+                    {
+                        "student_id": 79,
+                    },
+                ]
+            },
+        ]
+    },
+]

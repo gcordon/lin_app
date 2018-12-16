@@ -1,0 +1,50 @@
+div(class="clearfix layui-side layui-bg-black layui-hide-xs",id="admin_side" )
+    ul.layui-nav.layui-nav-tree(lay-filter="")
+        li.layui-nav-item
+            a(href="/admin/home") 首页
+        |             
+        li.layui-nav-item.layui-nav-itemed
+            a(href="javascript:;") 
+                i(class="layui-icon layui-icon-user") &emsp;用户
+            |                 
+            dl.layui-nav-child
+                dd
+                    a(href="/admin/showUser",class="layui-icon layui-icon-username") &emsp;用户表
+                |                     
+                dd
+                    //- a(href="javascript:;") &emsp;角色管理
+        |             
+        li.layui-nav-item.layui-nav-itemed
+            a(href="javascript:;") 
+                i(class="layui-icon layui-icon-home") &emsp;课程
+            |                 
+            dl.layui-nav-child
+                |
+                dd
+                    a(href="/admin/showCourse",class="layui-icon layui-icon-template") &emsp;显示所有课程
+                |
+                dd
+                    a(href="/admin/addCourse",class="layui-icon layui-icon-template") &emsp;添加课程
+        li.layui-nav-item.layui-nav-itemed
+            a(href="javascript:;") 
+                i(class="layui-icon layui-icon-home") &emsp;前台展示
+            |                 
+            dl.layui-nav-child
+                dd
+                    a(href="/admin/showBanner",class="layui-icon layui-icon-picture") &emsp;轮播图
+        li.layui-nav-item.layui-nav-itemed
+            a(href="javascript:;") 
+                i(class="layui-icon layui-icon-user") &emsp;用户
+            |                 
+            dl.layui-nav-child
+                dd
+                    a(href="/admin/showUser") 用户表
+                |                     
+                dd
+                    a(href="/admin/home") 后台管理员
+                |                     
+                dd
+                    a(href="javascript:;") 角色管理
+                |  
+
+

@@ -1,0 +1,17 @@
+/********************start 清除浮动*****************************/
+.clearfix:before,
+.container:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/* IE 6/7 */
+
+.clearfix {
+    zoom: 1;
+}
+/********************end 清除浮动*****************************/

@@ -1,0 +1,146 @@
+//- 这个是   用户-》用户表
+extends ./layout/admin.pug
+block currentStyle
+    style.
+        .hide{display:none}
+block content
+    div(class="clearfix layui-body layui-table-body layui-anim layui-anim-upbit")
+        fieldset.layui-elem-field.layui-field-title(style='margin-top: 0px;')
+            //- - var data = {'name': 'siguang', 'nage': 30}
+            //- - var arr = [11,22,33]
+            //- div
+            //-     - for(var key in data)
+            //-         div= key
+            //-     - for(var k in arr)
+            //-         div= arr[k]
+
+            //- - for(let course of courseAll.data) 
+            //-     div= course.id
+            //-         - for(let course_class of course.childrenAll) 
+            //-             div= course_class.id
+            //-                 - for(let course_child of course_class.childrenAll) 
+            //-                     div= course_child.title     
+
+            //- .layui-collapse(lay-accordion='',style="background:#376956;")
+            //-     .layui-colla-item
+            //-     - for(let course of courseAll.data)     
+            //-         h2.layui-colla-title(style="color:#333;font-weight: bold;font-size:20px;background:#376956;")= course.class_name
+            //-         .layui-colla-content.layui-show
+            //-             .layui-collapse(lay-accordion='')
+            //-                 .layui-colla-item
+            //-                 - for(let course_class of course.childrenAll) 
+            //-                     h2.layui-colla-title(style="color:#333;font-weight: bold;font-size:12px;background:#5aa488;")= course_class.class_name
+            //-                     .layui-colla-content.layui-show
+            //-                         .layui-collapse(lay-accordion='')
+            //-                             .layui-colla-item
+            //-                             - for(let course_child of course_class.childrenAll) 
+            //-                                 h2.layui-colla-title(style="color:#333;font-weight: bold;font-size:12px;background:#5aa488;")= course_child.title
+        button.layui-btn.layui-btn-primary.up-all 全部收起
+        button.layui-btn.layui-btn-primary.down-all 全部展开
+        button.layui-btn.layui-btn-primary.get-checked 获取选中
+        table#test-tree-table.layui-table.layui-form
+        
+                                                                
+
+
+block currentScript
+                
+    script.
+        
+            axios.get('/api/adminCourseAll')
+                .then(function(e) {
+                        var data_ = e.data.data
+                        layui.use(['treetable','form'],function(){
+                            //- 
+                        data = data_
+                            //- 
+                        var o = layui.$,treetable = layui.treetable;
+                        var form = layui.form,layer = layui.layer;
+                        treetable.render({
+                            elem: '#test-tree-table',
+                            data:  data,
+                            field: 'title',
+                            is_checkbox: true,
+                            /*icon_val: {
+                                open: "&#xe619;",
+                                close: "&#xe61a;"
+                            },
+                            space: 4,*/
+                            cols: [
+                                {
+                                    field: 'title',
+                                    title: '标题',
+                                    width: '30%',
+                                },
+                                {
+                                    //- field: 'id',
+                                    field: 'old_id',
+                                    title: 'ID',
+                                    width: '20%',
+                                },
+                                {
+                                    title: '状态',
+                                    width: '20%',
+                                    template: function(item){
+                                        return '<input type="checkbox" lay-skin="switch" lay-filter="status" lay-text="开启|关闭">';
+                                    }
+                                },
+                                {
+                                    //- field: 'pid',
+                                    field: 'old_pid',
+                                    title: '父ID',
+                                    width: '20%',
+                                },
+                                //- {
+                                //-     field: 'actions',
+                                //-     title: '操作',
+                                //-     width: '30%',
+                                //-     template: function(item){
+                                //-         var tem = [];
+                                //-         if(item.pid == 0){
+                                //-             tem.push('<a class="add-child" lay-filter="add">添加子级</a>');
+                                //-         }
+                                //-         tem.push('<a lay-filter="edit">编辑</a>');
+                                //-         if(item.pid > 0){
+                                //-             tem.push('<a class="set-attr">设置属性</a>');
+                                //-         }
+                                //-         return tem.join(' <font>|</font> ')
+                                //-     },
+                                //- },
+                            ]
+                        });
+                        
+                        treetable.on('treetable(add)',function(data){
+                            layer.msg('添加操作');
+                            console.dir(data);
+                        })
+                        
+                        treetable.on('treetable(edit)',function(data){
+                            layer.msg('编辑操作');
+                            console.dir(data);
+                        })
+                        
+                        o('.up-all').click(function(){
+                            treetable.all('up');
+                        })
+                        
+                        o('.down-all').click(function(){
+                            treetable.all('down');
+                        })
+                        
+                        o('.get-checked').click(function(){
+                            console.dir(treetable.all('checked'));
+                        })
+                        
+                        form.on('switch(status)',function(data){
+                            layer.msg('监听状态操作');
+                            console.dir(data);
+                        })
+                    }) 
+                })
+
+            layui.config({
+                base: '../public/js/treetable/',
+            })
+            
+       

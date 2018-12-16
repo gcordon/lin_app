@@ -1,0 +1,36 @@
+doctype html
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
+        meta(name="viewport",content="width=device-width, initial-scale=1")
+        meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+        include link
+        block link
+        style.
+            .layui-table-body {
+                width: 1300px;
+            }
+        link(rel="stylesheet", href="../public/style/admin.css")
+        title #{head_title || '后台管理'}
+        block currentStyle
+    
+    body
+        div.layui-container-fluid
+            include header
+            include side
+            block content
+        include script
+        block currentScript
+
+script.
+    layui.use('element', function(){
+        //导航的hover效果、二级菜单等功能，需要依赖element模块
+        var element = layui.element;
+        element.init()
+    });
+    
+
+
+
+
+    

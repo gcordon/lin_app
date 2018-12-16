@@ -1,0 +1,107 @@
+include  ./layout/layout.pug
+block currentStyle
+    link(rel="stylesheet", href="../public/style/login.css")
+    //- script(src="https://cdn.bootcss.com/sass.js/0.11.0-beta.1/sass.min.js")
+    //- link(rel="stylesheet",type="text/x-scss",href="public/scss/layout.scss")
+    script(src="../public/fetch/login.js")
+    link(rel="stylesheet",href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css")
+    
+    
+block content
+    .container-fluid
+        #admin_login.row.form
+            .col-xs-12.col-sm-12.col-md-6.col-md-offset-3
+                form(novalidate)(name="myForm")
+                    div.form-group(ng-app="my-form",ng-controller="my-form-controller")
+                        h2.text-center 
+                            
+                            strong EGG后台管理系统
+                                    //- #{home}
+                        label(for="username")(style={'font-size':'10px'}) 
+                            i.fa.fa-user.fa-fw.fa-2x username：
+                        input(type="text" name="username" class="form-control" id="username" placeholder="请输入用户名" autocomplete="off" autofocus="autofocus" ng-model="username" ng-blur="usernameUp()" required) 
+                        label(for="username")(style={'font-size':'10px'}) 
+                            i.fa.fa-key.fa-fw.fa-2x password：
+                        input(type="text" name="password" class="form-control" id="password" placeholder="请输入密码" autocomplete="off" ng-model="password" required)
+                        button(type="button"  ng-click="sendAjax()")(style={'margin': '20px 0 0 0'}).btn.btn-block.btn-lg.btn-primary 登陆
+                        //- ul
+                        //-     li
+                        //-         a(href="#/") 首页
+                        //-     li
+                        //-         a(href="#/computers") 电脑
+                        //-     li
+                        //-         a(href="#/printers") 打印机
+                        //- div(ng-view)
+                        //- <button id="test1" class="layui-btn">运行上述例子</button>
+    script.
+            //弹出一个提示层
+            //- layer.msg('hello'); 
+            
+            //- angular
+            var app = angular.module('my-form', ['ngRoute'])
+            app.controller('my-form-controller', function($scope, $http) {
+                $scope.username = 'admin'
+                $scope.password =  'admin'
+                $scope.loading = false
+                $scope.usernameUp = function() {
+                    if (angular.isUndefined($scope.username)) {
+                        layer.tips('账号不能为空', '#username', {
+                            tips: [1, '#3595CC'],
+                            time: 1000
+                        });
+                    }
+                    if (angular.isUndefined($scope.password)) {
+                        layer.tips('密码不能为空', '#password', {
+                            tips: [1, '#3595CC'],
+                            time: 1000
+                        });
+                    }
+                }
+                $scope.sendAjax = function() {
+                    if ($scope.username == '' ) {
+                        layer.tips('账号不能为空', '#username', {
+                            tips: [2, '#3595CC'],
+                            time: 1000
+                        });
+                        return
+                    }
+                    
+                    if ($scope.password == '' ) {
+                        layer.tips('密码不能为空', '#password', {
+                            tips: [2, '#3595CC'],
+                            time: 1000
+                        });
+                        return
+                    }
+                    var ii = layer.load();
+                    let url = '/admin/login'
+                    $http.post(url, { username: $scope.username, password: $scope.password, })
+                    .then(function(re){
+                        if (re.data.code == 0) {
+                            window.localStorage.setItem('admin', re.data.data.username)
+                            layer.msg('后台登陆成功');
+                            window.location.href = '/admin/home'
+                            layer.close(ii);
+                        } else {
+                            //- layer.msg('登陆失败');
+                            layer.msg('后台账号或密码错误', function(){
+                                //do something
+                            });
+                            $scope.loading = true
+                            layer.close(ii);
+                        }
+                    }, function(error) {
+                        layer.msg(`server error code: ${error}`)
+                    })
+                }
+            })
+            app.config(['$routeProvider', function($routeProvider){
+                $routeProvider
+                .when('/computers',
+                    {templateUrl: '../public/index.html'}
+                )
+                .when('/printers',{template:'这是打印机页面'})
+            }]);
+        
+            
+            

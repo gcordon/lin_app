@@ -1,0 +1,37 @@
+[{
+    "title": "类选项卡title1",
+    "select": 0,
+    "sequence": 1,
+    "children": [
+        {
+            "content": "子选择内容1",
+            "sequence": "A"
+        },
+        {
+            "content": "子选择内容2",
+            "sequence": "B"
+        },
+        {
+            "content": "子选择内容3",
+            "sequence": "C"
+        }
+    ]
+}, {
+    "title": "类选帅选项卡title2",
+    "select": 0,
+    "sequence": 2,
+    "children": [
+        {
+            "content": "子选择内容11",
+            "sequence": "A"
+        }, 
+        {
+            "content": "子选择内容22",
+            "sequence": "B"
+        }, 
+        {
+            "content": "子选择内容33",
+            "sequence": "C"
+        },
+    ]
+}]

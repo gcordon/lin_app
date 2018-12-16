@@ -1,0 +1,57 @@
+[
+    {
+        "select": 0,
+        "vote_class_id": 327,
+        "vote_id": 287,
+        "student_token": "aa1a1bd629401c971771c06015ed9cdb",
+        "selected_arr": "[411]"
+    },
+    {
+        "select": 1,
+        "vote_class_id": 328,
+        "vote_id": 287,
+        "student_token": "aa1a1bd629401c971771c06015ed9cdb",
+        "selected_arr": "[414,415,416]"
+    }
+]
+
+[{
+        "select": 0,
+        "vote_class_id": 327,
+        "vote_id": 287,
+        "student_token": "aa1a1bd629401c971771c06015ed9cdb",
+        "selected_arr": [411]
+    },
+    {
+        "select": 1,
+        "vote_class_id": 328,
+        "vote_id": 287,
+        "student_token": "aa1a1bd629401c971771c06015ed9cdb",
+        "selected_arr": [414,415,416]
+    }
+]
+
+
+
+/*
+[{
+    "select": 0,
+    "vote_class_id": 325,
+    "vote_id": 287,
+    "student_token": "660",
+    "selected_arr": [400]
+}, {
+    "select": 0,
+    "vote_class_id": 326,
+    "vote_id": 287,
+    "student_token": "661",
+    "selected_arr": [400]
+}, {
+    "select": 0,
+    "vote_class_id": 326,
+    "vote_id": 287,
+    "student_token": "669",
+    "selected_arr": [400]
+}]
+
+*/

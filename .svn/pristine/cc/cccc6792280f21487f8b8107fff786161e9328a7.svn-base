@@ -1,0 +1,67 @@
+doctype html
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
+        meta(name="viewport",content="width=device-width, initial-scale=1")
+        meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+        script(src="https://cdn.bootcss.com/socket.io/2.1.0/socket.io.js")
+    body
+      div.layui-container-fluid
+        input(type="button",value="发送",id="send")
+
+script.
+    // browser
+    const log = console.log;
+
+    window.onload = function() {
+    // init
+    const socket = io('ws://localhost:7001/', {
+        // Actual use can pass parameters here
+        query: {
+            classId: 2,
+            username: `用户${Math.floor(Math.random()*100)}`
+        },
+        transports: ['websocket']
+    });
+
+    socket.on('connect', () => {
+        const id = socket.id;
+
+        log('#connect,', id, socket); // receive online user information
+
+        // listen for its own id to implement p2p communication
+        socket.on(id, msg => {
+            log('#receive,', msg);
+        });
+    });
+
+    socket.on('online', msg => {
+        log('#online,', msg);
+    });
+
+    // system events
+    socket.on('disconnect', msg => {
+        log('#disconnect', msg);
+    });
+
+    socket.on('disconnecting', () => {
+        log('#disconnecting');
+    });
+
+    socket.on('error', () => {
+        log('#error');
+    });
+
+    socket.on('message', function (msg) {
+        console.log(msg)
+    });
+    
+
+    window.socket = socket;
+    };
+    
+
+
+
+
+    

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+</head>
+<body>
+<form class="layui-form" action="" >
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="username" required  lay-verify="required" autocomplete="off"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required  lay-verify="required"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码框</label>
+        <div class="layui-input-inline">
+            <input type="text" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+        
+    <!-- <div class="layui-form-item">
+        <label class="layui-form-label">原密码</label>
+        <div class="layui-input-inline">
+            <input type="text" name="defaultpassword" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div> -->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">学校</label>
+        <div class="layui-input-inline">
+        <input type="text" name="school" required lay-verify="required"  autocomplete="off" class="layui-input">
+        </div>
+    </div>    
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-inline">
+        <input type="text" name="email" required lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>        
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block" >
+            <input type="radio" name="sex" lay-filter="radioSex" value="1" title="男">
+            <input type="radio" name="sex" lay-filter="radioSex" value="2" title="女" >
+        </div>
+    </div> 
+
+    </div> 
+        <div class="layui-form-item">
+        <label class="layui-form-label">token</label>
+        <div class="layui-input-inline">
+        <input type="text" name="token" required lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">辅助文字</div>
+    </div>     
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">头像</label>
+        <div class='layui-container'>
+            <button type="button" class="layui-btn" id="test1">
+                <i class="layui-icon"></i>选择图片
+            </button>
+            <div class='layui-input-block' id='div_prev' title=''></div>
+            <button id="upd">点击上传</button>
+        </div>
+
+        <div id='prevModal'>
+            <img id='img_prev' />
+        </div>
+    </div>
+
+    
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+        <button class="layui-btn" lay-submit lay-filter="formDemo" id="updateDatums" >更新数据</button>
+        </div>
+    </div>
+</form>
+    <script src="http://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <script src="../../layui/layui.all.js"></script>
+    <script>
+        window.onload = function () {
+            
+            
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            //让层自适应iframe
+            parent.layer.iframeAuto(index);
+
+            function sel(select) {
+                return document.querySelector(select)
+            }
+            function selAll(select) {
+                return document.querySelectorAll(select)
+            }
+            function getValue(el) {
+                // 这里可以优化
+                let value = sel(`input[name='${el}']`).value
+                return value
+            }
+            let sex = 1
+            layui.use('form', function () {
+                //各种基于事件的操作，下面会有进一步介绍
+                var form = layui.form;
+                form.on('radio(radioSex)', function (data) {
+                    sex = parseInt(data.value)
+                });
+            });
+            
+            sel('#updateDatums').addEventListener('click', (event) => {
+                event.preventDefault()
+                let username = getValue('username')
+                let name = getValue('name')
+                let password = getValue('password')
+                let school = getValue('school')
+                let email = getValue('email')
+                let token = getValue('token')
+                const sexArr = selAll('input[name="sex"]')
+                let addUserOrDatums = document.querySelector('addUserOrDatum')
+                let datumsObj = {
+                    username,
+                    name,
+                    password,
+                    school,
+                    email,
+                    sex,
+                    token,
+                }
+                axios.post('/admin/datums',datumsObj).then(es => {
+                    if (es.data.code == 0) {
+                        layer.msg(`更新数据token:${token}成功`, {icon: 6,time:800}, function() {
+                            // 父页面的刷新
+                            parent.location.reload();
+                            parent.layer.close(index);
+                        }); 
+                    } else {
+                        layer.msg(`更新数据token:${token}失败`, {icon: 6,time:800}, function() {
+                            // parent.layer.close(index);
+                        }); 
+                    }
+                })
+            })
+        }
+    
+    </script>
+</body>
+</html>

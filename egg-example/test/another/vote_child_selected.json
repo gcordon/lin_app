@@ -1,0 +1,14 @@
+[
+    {
+                vote_child_id: 1,
+                student_token: 'fdsfsdf',
+                selectedArr: ['A','B'
+        ],
+    },
+    {
+                vote_child_id: 22,
+                student_token: 'fdsfsdf',
+                selectedArr: ['A', 'B', 'C'
+        ],
+    }
+]

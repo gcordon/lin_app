@@ -1,0 +1,33 @@
+body {
+    background: url('../../images/bg-1.jpg');
+    background-size:cover;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+}
+#login-form {
+    padding: 200px;
+}
+.ant-form .ant-form-horizontal .login-form {
+    background:red;
+}
+.login-form {
+    margin: 0 auto;
+    max-width: 300px;
+}
+
+.login-form-forgot {
+    float: right;
+}
+
+.login-form-button {
+    width: 100%;
+}
+.ant-input {
+    width: 350px;
+    height: 40px;
+    margin: 0 8px 8px 0;
+}
+.login-form-button {
+    width: 350px;
+}

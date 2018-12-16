@@ -1,0 +1,4 @@
+extends ./layout/admin.pug
+block content
+    div(class="clearfix layui-body .layui-table-body")
+        div 

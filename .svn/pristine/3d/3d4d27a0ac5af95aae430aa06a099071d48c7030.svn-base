@@ -1,0 +1,16 @@
+#nprogress .bar {
+    height: 4px;
+    background: #27c4f5 linear-gradient(to right, #27c4f5, #a307ba, #fd8d32, #70c050, #27c4f5);
+    background-size: 500%;
+    animation: 2s linear infinite barprogress, .3s fadein;
+    width: 100%;
+}
+
+#nprogress  {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 6px;
+    z-index: 0;
+    width: 100%;
+}

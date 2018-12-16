@@ -1,0 +1,47 @@
+a {
+        cursor:pointer;
+    }
+    #admin_header {
+        background:#393D49;
+        color:#009688;
+        min-height: 60px;
+        line-height: 60px;
+        font-size: 20px;
+    }
+    #admin_logo {
+        padding: 0 20px;
+        font-weight:bold;
+    }
+    #admin_side {
+        top: 60px;
+    }
+    .layui-header {
+        position:fixed;
+        width:100%;
+        text-align:right;
+    }
+    .layui-body {
+        position:relative;
+    }
+    .layui-nav-child dd a{
+        text-indent: 30px;
+    }
+    .layui-body {
+        top: 60px;
+        overflow: auto;
+    }
+    
+    
+    .layui-table-body {
+        overflow: auto;
+        min-height: 400px;
+    }
+    @media (max-width:768px){
+        #admin_side  {
+            top: 120px;
+        }
+        .layui-body {
+            left:0;
+            top: 120px;
+        }
+    }

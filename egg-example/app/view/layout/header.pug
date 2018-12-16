@@ -1,0 +1,28 @@
+div(class="clearfix layui-header header")
+    div#admin_header
+        div(class="layui-col-md2 layui-col-sm4",id="admin_logo") EGG后台
+        ul(class="layui-col-md10 layui-col-sm8 layui-col-xs-12 layui-nav",id="admin_nav")
+                li.layui-nav-item
+                    a(href="#") 控制台
+                        span.layui-badge 9
+                li.layui-nav-item
+                    a(href="#") 个人中心
+                        span.layui-badge-dot
+                li.layui-nav-item(lay-unselect="")
+                    a(href="#") admin &emsp;
+                        img.layui-nav-img(src="http://t.cn/RCzsdCq")
+                    dl.layui-nav-child
+                        // <dd><a href="javascript:;">修改信息</a></dd>
+                        // <dd><a href="javascript:;">安全管理</a></dd>
+                        dd
+                            a(href="javascript:;",id="admin_logout") 退了
+    script(src="http://cdn.bootcss.com/axios/0.18.0/axios.min.js")
+    script.
+        const logout = document.querySelector('#admin_logout')
+        logout.addEventListener('click', () => {
+            axios.post('/admin/logout',{})
+                .then(e => {
+                    
+                })
+        })
+        

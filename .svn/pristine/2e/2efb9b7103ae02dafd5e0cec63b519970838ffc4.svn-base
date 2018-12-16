@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        var a = [{
+                vote_child_id: 1,
+                student_token: 'fdsfsdf',
+                selectedArr: ['A', 'B'],
+            },
+            {
+                vote_child_id: 22,
+                student_token: 'fdsfsdf',
+                selectedArr: ['A', 'B', 'C'],
+            }
+        ]
+        var b = [{
+                vote_child_id: 22,
+                student_token: 'fdsfsdf',
+                selectedArr: ['A', 'B', 'C'],
+            },
+            {
+                vote_child_id: 22,
+                student_token: 'fdsfsdf',
+                selectedArr: ['A', 'B'],
+            }
+        ]
+        b.forEach(function (value_1, key_1) {
+            a.forEach(function (value, key) {
+                if (value.selectedArr.toString() == value_1.selectedArr.toString()) {
+                    console.log(value_1.selectedArr)
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
